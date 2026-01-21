@@ -12,4 +12,12 @@ public class EnemyDamage : MonoBehaviour
             ph.TakeDamage(damage);
         }
     }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        PlayerHealth ph = collision.GetComponent<PlayerHealth>();
+        if (ph != null)
+        {
+            ph.TakeDamage(damage);
+        }
+    }
 }
