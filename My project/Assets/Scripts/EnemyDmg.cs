@@ -6,15 +6,16 @@ public class EnemyDamage : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        PlayerHealth ph = other.GetComponent<PlayerHealth>();
+        PlayerHealth ph = other.GetComponentInParent<PlayerHealth>();
         if (ph != null)
         {
             ph.TakeDamage(damage);
         }
     }
-    private void OnTriggerStay2D(Collider2D collision)
+
+    private void OnTriggerStay2D(Collider2D other)
     {
-        PlayerHealth ph = collision.GetComponent<PlayerHealth>();
+        PlayerHealth ph = other.GetComponentInParent<PlayerHealth>();
         if (ph != null)
         {
             ph.TakeDamage(damage);

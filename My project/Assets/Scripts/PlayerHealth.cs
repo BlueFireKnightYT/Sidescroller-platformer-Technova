@@ -1,56 +1,41 @@
 using UnityEngine;
-using TMPro;
 using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
     public int lives = 3;
 
-    public TMP_Text livesText;   // drag TMP Text here
-
     public float invincibleTime = 1f;
     private bool invincible = false;
+    private bool dead = false;
 
-    void Start()
-    {
-        UpdateLivesText();
-    }
+    public int Lives => lives;
 
     public void TakeDamage(int amount)
     {
-        if (invincible) return;
+        if (invincible || dead) return;
 
         lives -= amount;
-        UpdateLivesText();
-
         if (lives <= 0)
         {
+            lives = 0;
             Die();
+            return;
         }
-        else
-        {
-            StartCoroutine(InvincibleCooldown());
-        }
-    }
 
-    private System.Collections.IEnumerator InvincibleCooldown()
-    {
         invincible = true;
-        yield return new WaitForSeconds(invincibleTime);
-        invincible = false;
+        Invoke(nameof(EndInvincible), invincibleTime);
     }
 
-    private void UpdateLivesText()
+    private void EndInvincible()
     {
-        if (livesText != null)
-        {
-            livesText.text = "" + lives;
-        }
+        invincible = false;
     }
 
     private void Die()
     {
-        Debug.Log("Player died!");
+        dead = true;
+        Debug.Log("Je bent dood dusss herlaad scene..");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
